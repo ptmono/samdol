@@ -1,0 +1,62 @@
+Purpose
+=======
+
+I am finding full time job. The bookmarking tool in work.go.kr has a
+problem. The information is disappered when the end of recruit period. I
+need a database what company has how many times recruit and some memos
+with the recruit page.
+
+
+Requirements
+============
+
+ - python
+ - chrome browser
+ - MongoEngine (require MongoDB)
+ - PyQt4
+ - fullcalendar-1.5.4 (included)
+ - jquery-1.3.2 (included)
+ - jquery.json-2.4 (included)
+ - jquery star rating (included)
+ - BeautifulSoup (optional)
+
+
+Using
+=====
+
+It has two part
+ - server
+ - chrome_extension
+
+ 1. Configure the server
+ $ nano samdol/server/config
+
+ 2. Start server
+ $ cd samdol/server
+ $ python samdolc.py
+
+ 3. Install chrome extension
+ 3.1 Type "chrome://extensions" in url bar
+ 3.2 Check "Developer mode"
+ 3.3 Click "Load unpacked extension..."
+ 3.4 Load samdol/chrome_extension
+
+ 4. You can see browser action button in chrome
+
+ 5. Find the recruit such as
+ http://www.saramin.co.kr/zf_user/recruit/recruit-view?idx=13845172
+
+ 6. Click browser action button
+
+ 7. Click "Submit"
+
+
+Currently only support http://saramin.co.kr.
+
+To see calendar open "http://localhost:8559/calendar
+
+
+TODO
+====
+
+See todo.muse

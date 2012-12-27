@@ -1,0 +1,13 @@
+
+* additional url
+
+Parse following url
+
+http://www.saramin.co.kr/zf_user/special-recruit/list/bcode/48/code/D8/page/1/pageCount/80/CategoryViewFlag/1/recIdx/14005356
+
+
+* Container encoding error with urllib
+
+Current time, parser.Container uses PyQt to get the source of page. The
+reason is urllib has decoding problem with urllib. PyQt need few second to
+get the source. urllib is fast than.

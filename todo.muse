@@ -1,0 +1,19 @@
+ - Add tagging
+ - autocompletion for tagging
+ - wupport sqlite
+ - linux package or deamon
+ - chrome package
+ D Reporting
+
+
+* Support other sites
+
+ - work.go.kr
+
+
+
+* Response false from server
+
+Chrome extension has no response from server when server has a problem or
+complete the task.
+
