@@ -1,3 +1,5 @@
+-*- mode: muse -*-
+
  - Add tagging
  - autocompletion for tagging
  - wupport sqlite
@@ -6,10 +8,20 @@
  D Reporting
 
 
-* Support other sites
+* 1301231936  We can configure database name
+
+
+* 1301231932 Determine rpm log path
+
+
+* Support Korean language
+
+
+* [DONE] 1302080713 Support other sites
 
  - work.go.kr
 
+On revision 231.
 
 
 * Response false from server
@@ -17,3 +29,15 @@
 Chrome extension has no response from server when server has a problem or
 complete the task.
 
+
+* 1301190216 remove data directory on windows when uninstalling
+
+Confirm the removing of data when uninstalling.
+
+
+* 1301200324 Add Favicon.ico
+
+
+* 1302070752 Support  installer for xp
+
+Not work

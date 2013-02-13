@@ -8,7 +8,7 @@ import json
 import re
 
 from mongoengine import *
-from parser import SaraminContainer
+from container_bloker import ContainerBloker
 
 ## worknet
 # http://www.work.go.kr/empInfo/empInfoSrch/detail/empDetailAuthView.do?callPage=detail&wantedAuthNo=K151341212120003
@@ -185,6 +185,7 @@ class RecruitInfo(RecruitBase):
 
         try:
             Recruit.objects(idx=idx)[0]
+            #print Recruit.objects
         except IndexError:
             return True
         return False
@@ -196,7 +197,7 @@ class RecruitInfo(RecruitBase):
         # mongoengine uses BaseDocument._deleta() to detect the change of
         # a document. mongoengine just use Document._data to update a
         # document. It means mongoengine doesn't know the change of a
-        # document when you have modified Document._data.
+        # document even if you have modified Document._data.
 
         # We can mark the change with Document._mark_as_changed(key).
         # Or we can manually update with collection.update. For instance
@@ -224,10 +225,8 @@ class RecruitInfo(RecruitBase):
     def _getIdxFromUrl(self, idx_or_url):
         try:
             if idx_or_url[:4] == 'http':
-                pattern = re.compile("idx=([0-9]+)")
-                search = pattern.search(idx_or_url)
-                result = search.group(1)
-                return result
+                bloker = ContainerBloker(idx_or_url)
+                return bloker.idx()
             else:
                 return idx_or_url
         except TypeError:

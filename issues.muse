@@ -1,9 +1,13 @@
+-*- mode: muse -*-
 
-* additional url
+
+* 1301240542 additional url
 
 Parse following url
 
 http://www.saramin.co.kr/zf_user/special-recruit/list/bcode/48/code/D8/page/1/pageCount/80/CategoryViewFlag/1/recIdx/14005356
+
+http://www.saramin.co.kr/zf_user/special-recruit/list/bcode/51/code/E1/search_area/2/page/1/pageCount/80/CategoryViewFlag/1/recIdx/14053736
 
 
 * Container encoding error with urllib
@@ -11,3 +15,14 @@ http://www.saramin.co.kr/zf_user/special-recruit/list/bcode/48/code/D8/page/1/pa
 Current time, parser.Container uses PyQt to get the source of page. The
 reason is urllib has decoding problem with urllib. PyQt need few second to
 get the source. urllib is fast than.
+
+
+* 1301161926 Problem for no company summary page
+
+ -
+   http://www.saramin.co.kr/recruit/RecruitBbsSearch.php?oq=rd&code=bbs_recruit&mode=view&idx=14128746
+
+
+* [DONE]1302080444 It is problem rpm update
+
+We have to remove samdolc before install.

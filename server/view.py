@@ -17,36 +17,49 @@ base_html = '''<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://
 <script type='text/javascript' src='./tools/fullcalendar-1.5.4/jquery/jquery-1.8.1.min.js'></script>
 <script type='text/javascript' src='./tools/fullcalendar-1.5.4/jquery/jquery-ui-1.8.23.custom.min.js'></script>
 <script type='text/javascript' src='./tools/fullcalendar-1.5.4/fullcalendar/fullcalendar.min.js'></script>
+<script type="text/javascript" src="./tools/jquery.qtip-1.0.0-rc3.min.js"></script>
 <script type='text/javascript'>
 
-	$(document).ready(function() {
-	
-		var date = new Date();
-		var d = date.getDate();
-		var m = date.getMonth();
-		var y = date.getFullYear();
+$(document).ready(function() {
+    
+    var date = new Date();
+    var d = date.getDate();
+    var m = date.getMonth();
+    var y = date.getFullYear();
+    
+    $('#calendar').fullCalendar({
+	editable: true,
+	events: %s,
+
+	eventRender: function(event, element) {
+	    element.qtip({
+		content: event.recruit_summary + '<p><font color="blue">' + event.memo +
+		'</font>'
 		
-		$('#calendar').fullCalendar({
-			editable: true,
-			events: %s
-		});
-		
-	});
+	    });
+	}
+    });
+});
+
 
 </script>
 <style type='text/css'>
 
-	body {
-		margin-top: 40px;
-		text-align: center;
-		font-size: 14px;
-		font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
-		}
+body {
+    margin-top: 40px;
+    text-align: center;
+    font-size: 14px;
+    font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+}
 
-	#calendar {
-		width: 900px;
-		margin: 0 auto;
-		}
+#calendar {
+    width: 900px;
+    margin: 0 auto;
+}
+
+th { font-size: 12px; }
+td { font-size: 12px; }
+
 
 </style>
 </head>
@@ -58,16 +71,24 @@ base_html = '''<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://
 
 
 def calendar():
+    config.logger.info("Start view.calendar()")
     dump = recruits()
+    config.logger.debug(dump)
     return base_html % dump
 
 
 def recruits():
-    connect(config.db_name)
-    today = datetime.today()
-    yesterday = today + timedelta(-1)
-    recs = Recruit.objects
-    recs = Recruit.objects(end__gt = yesterday)
+    config.logger.info("Start view.recruits()")    
+    try:
+        connect(config.db_name)
+        today = datetime.today()
+        yesterday = today + timedelta(-1)
+        recs = Recruit.objects
+        config.logger.debug(recs)
+        recs = Recruit.objects(end__gt = yesterday)
+        config.logger.debug(recs)
+    except Exception, err:
+        config.logger.error(repr(err))
     return documents2jsondump(recs)
 
 

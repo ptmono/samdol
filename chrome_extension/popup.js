@@ -60,9 +60,17 @@ function clickHandler(e) {
 // Add event listeners once the DOM has fully loaded by listening for the
 // `DOMContentLoaded` event on the document, and adding your listeners to
 // specific elements when it triggers.
-document.addEventListener('DOMContentLoaded', function () {
-  document.querySelector('button').addEventListener('click', clickHandler);
+// document.addEventListener('DOMContentLoaded', function () {
+//   document.querySelector('button').addEventListener('click', clickHandler);
+// });
+$(document).ready(function(){
+    $('button[name=calendar]').bind('click', function() {
+      chrome.tabs.create({url: "http://127.0.0.1:8559/calendar"});
+      });
+    $('button[name=submit]').bind('click', clickHandler);
+
 });
+
 
 
 ////// How to use jquery star plugin
@@ -103,6 +111,8 @@ function initPopup(){
 		$('input').rating('select', data.rating);
 	    $(".comment").val(data.memo);
 	    $("#hover-notice").html('Reset to change!');
+	    if (data.dberror)
+		$("#hover-notice").html('<b><font color="red">Database doesn\'t work.</font></b>');
 
 	    // TODO: how to get simply the length of json object.
 	    var key, count = 0;
@@ -112,11 +122,22 @@ function initPopup(){
 		$("#response").html("On database.");
 	    else
 		$("#response").html("New recruit");
+
 	});
 	
     });
 }
 
+// $(document).ready(function(){
+//     $('a').click(function(){
+// 	chrome.tabs.create({url: $(this).attr('href')});
+// 	return false;
+//     });
+// });
+
+
 $(function() {
     initPopup();
+    //$(".comment").focus();
 });
+
