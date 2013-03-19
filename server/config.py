@@ -20,9 +20,14 @@ server_address = "localhost"
 server_port = 8559
 
 db_name = 'aaabbb'
+db_name_test = 'abtest'
 
 time_format = '%Y-%m-%dT%H:%M:%S'
 
+char_set = 'utf-8'
+
+# The directory for js, html, css
+medias_d = current_abpath + 'medias/'
 
 # This file contains the pid of samdolc daemon
 daemon_pid_file_path = '/tmp/samdolc.pid'
@@ -31,7 +36,7 @@ daemon_pid_file_path = '/tmp/samdolc.pid'
 ### ______________________________________________________________
 import logging
 
-LOG_TO_FILEP = False
+LOG_TO_FILEP = True
 if LOG_TO_FILEP:
     LOG_FILE_FILENAME = current_abpath + 'logging.log'
     LOG_FILE_MODE = 'a'

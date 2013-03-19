@@ -11,7 +11,6 @@ Requirements
 ============
 
  - python
- - chrome browser
  - MongoEngine (require MongoDB)
  - lxml
  - PyQt4
@@ -25,6 +24,10 @@ Requirements
  - BeautifulSoup (optional)
 
  - PyWin32(On Windows. http://starship.python.net/~skippy/win32)
+ - nsis(Nullsoft Scriptable Install System) for window installer
+ - rpm-build for linux installer
+ - chrome browser
+
 
 lxml
 ----
@@ -42,39 +45,50 @@ On Linux(Fedora)
 --------
 
 $ make rpm
-will generate samdolc-VERSION.noarch.rpm.
+will generate samdolc-{VERSION}.noarch.rpm.
 
-$ sudo rpm -Uvh samdolc-VERSION.noarch.rpm
+$ sudo rpm -Uvh samdolc-{VERSION}.noarch.rpm
 
 You also need to install google-chrome. See
  - http://www.if-not-true-then-false.com/2010/install-google-chrome-with-yum-on-fedora-red-hat-rhel/
 
 
-On Windows(Tested on Windows 7 64bit)
+On Windows(Tested on Windows 7 64bit, not work on xp)
 ----------
 
-Easy way is to use "samdolc.exe". The installer "samdolc.exe" is
-pre-packed with py2exe.
+Easy way is to use prepacked rpm or "samdolc.exe". The installer
+"samdolc.exe" is pre-packed by py2exe.
 
-You can generate the installer with
-$ mingw32-make exe-py2exe
+I am using the combination of mingw, cygwin, You can generate the installer with
+$ mingw32-make exe-py2exe # Packed by py2exe. This means you don't need pre-installed python
 or
-$ mingw32-make exe
+$ mingw32-make exe        # You need pre-installed python and the required packages
+
+Enable chrome-extension on chrome.
 
 
 Use directly from source
 ------------------------
 
+ 0. Install the required packages
+ $ pip install virtualenv
+ $ virtualenv samdolc
+ $ cd samdolc
+ $ source bin/activate
+ $ pip install -r requirements.txt
+
+
 It has two part
  - server
  - chrome_extension
 
- 1. Configure the server
+ 1. Configure the server such as port, database name.
  $ nano samdol/server/config.py
 
  2. Start server
  $ cd samdol/server
  $ python samdolc.py
+
  2.1 To start as a daemon
  $ python samdolcd.py start
 
@@ -94,8 +108,6 @@ It has two part
  7. Click "Submit"
 
 
-Currently only support http://saramin.co.kr.
-
 To see calendar, connect
 "http://localhost:8559/calendar"(http://127.0.0.1/calendar on Windows)
 
@@ -106,4 +118,6 @@ To see calendar, connect
 TODO
 ====
 
-See todo.muse
+See
+ - todo.muse
+ - issues.muse

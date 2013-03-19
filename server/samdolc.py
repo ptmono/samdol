@@ -27,7 +27,7 @@ class SamdolcAction(object):
             method = getattr(self, self.command)
             method()
         except AttributeError:
-            if self.path[1:6] == 'tools':
+            if self.path[1:6] == 'tools' or self.path[1:7] == 'medias':
                 content = ''
 
                 try:
@@ -100,13 +100,31 @@ class SamdolcAction(object):
         #config.logger.info(repr(view.calendar()))
         self.wfile.write(view.calendar())
 
-    def recruits(self):
+    def _recruits(self):
         # result = {}
         # result['title'] = 'This is title'
         # result['start'] = datetime.now().strftime('%Y-%m-%dT%H:%M:%S')
         # result['url'] = 'http://google.com'
         self.wfile.write(view.recruits())
 
+
+    def recruits(self):
+        self.obj.send_response(200, 'text/html')
+        self.obj.send_header('Content-Type', 'text/html')
+        self.obj.end_headers()
+
+        recruits = view.ViewRecruits()
+        self.wfile.write(recruits)
+
+    def permanents(self):
+        self.obj.send_response(200, 'text/html')
+        self.obj.send_header('Content-Type', 'text/html')
+        self.obj.end_headers()
+
+        recruits = view.ViewPermanentRecruits()
+        self.wfile.write(recruits)
+
+        
 
 class SamdolcRequest(BaseHTTPServer.BaseHTTPRequestHandler):
     def do_GET(self):

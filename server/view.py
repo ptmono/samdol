@@ -4,9 +4,15 @@
 import json
 from datetime import datetime, timedelta
 from mongoengine import connect
+from jinja2 import Environment, FileSystemLoader, Markup
 
 from db import Recruit, RecruitInfo
 import config
+
+class Var:
+    http_header = "Content-type: text/html; charset=utf-8\n\n"
+    page_not_found_msg = "We has no page %s"
+
 
 
 base_html = '''<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -91,6 +97,10 @@ def recruits():
         config.logger.error(repr(err))
     return documents2jsondump(recs)
 
+# def recruits():
+#     pr = ViewRecruits()
+#     return pr.getContent()
+
 
 def _documents2jsondump(objs):
     result = []
@@ -114,3 +124,72 @@ def documents2jsondump(objs):
     return json.dumps(result)
 
 
+class ViewAbstract(object):
+    def __init__(self):
+        connect(config.db_name)
+        self.jinja_env = Environment(loader=FileSystemLoader(config.medias_d))
+
+        self.content = self.getContent()
+
+    def getContent(self):
+        pass
+
+    def __repr__(self):
+        return self.content
+
+
+class ViewRecruits(ViewAbstract):
+    def getContent(self):
+        result = ''
+        infos = self._getContent()
+        infos = dict(articles=infos)
+        # Render
+        temp = self.jinja_env.get_template('jinja_list.html')
+        result = temp.render(infos)
+
+       # The result is unicode
+        result = result.encode(config.char_set)
+        return result
+
+    def _getContent(self):
+        # Get the rendered context 'temp_context
+        info_l = []
+        #infos = Recruit.objects(end = None)
+        infos = Recruit.objects
+
+        for info in infos:
+            try:
+                print info.to_mongo()
+                end = info.end.strftime("%m-%d/%y")
+                start = info.end.strftime("%m-%d/%y")                
+            except:
+                end = None
+                start = None
+            element = (info.title, start, end, info.rating,
+                       info.memo, info.idx, info.url)
+            info_l.append(element)
+        info_l.reverse()
+        return info_l
+
+class ViewPermanentRecruits(ViewRecruits):
+    def _getContent(self):
+        # Get the rendered context 'temp_context
+        info_l = []
+        #infos = Recruit.objects(end = None)
+        infos = Recruit.objects(end=None)
+
+        for info in infos:
+            try:
+                print info.to_mongo()
+                end = info.end.strftime("%m-%d/%y")
+                start = info.end.strftime("%m-%d/%y")                
+            except:
+                end = None
+                start = None
+            element = (info.title, start, end, info.rating,
+                       info.memo, info.idx, info.url)
+            info_l.append(element)
+        info_l.reverse()
+        return info_l
+        
+        

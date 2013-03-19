@@ -9,7 +9,7 @@ import config
 from db import RecruitInfo, Recruit, Company
 from test_base import createDummy, removeDummy
 
-from view import recruits, documents2jsondump
+from view import recruits, documents2jsondump, ViewRecruits
 
 
 
@@ -27,7 +27,7 @@ class Test_Calendar(TestCase):
     def tearDown(self):
         pass
     
-    def test_recruits(self):
+    def _recruits(self):
         today = datetime.today()
         yesterday = today + timedelta(-1)
         recs = Recruit.objects
@@ -35,6 +35,13 @@ class Test_Calendar(TestCase):
         
         #self.assertEqual(recruits(), 0)
 
+
+    def viewRecruits(self):
+        recruits = ViewRecruits()        
+        #self.assertEqual(recruits.getContent(), 0)
+        permanent_recruit = ViewRecruits(
+
+        
     def test_documents2jsondump(self):
         today = datetime.today()
         yesterday = today + timedelta(-1)

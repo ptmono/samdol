@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # coding: utf-8
 
+import config
 from db import Recruit, Company
 from mongoengine import connect
 
@@ -9,7 +10,7 @@ from unittest import TestCase
 
 def createDummy():
 
-    connect('aaabbb')
+    connect(config.db_name_test)
 
     today = datetime.today()
 
@@ -41,8 +42,14 @@ def createDummy():
     recruit3.end = today + timedelta(3)
     recruit3.save()
 
+    recruit4 = Recruit()
+    recruit4.idx = '4'
+    recruit4.title = "permanent recruit"
+    recruit4.memo = 'The idx is 4'
+    recruit4.end = None
+    recruit4.save()
 
-
+    
 def removeDummy():
 
     Recruit.drop_collection()

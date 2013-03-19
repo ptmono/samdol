@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # coding: utf-8
 
+import config
 from db import RecruitInfo, Recruit, Company
 
 from mongoengine import connect
@@ -12,7 +13,7 @@ import urllib
 class Test_Samdolc(TestCase):
     @classmethod
     def setUpClass(cls):
-        connect('aaabbb')
+        connect(config.db_name_test)
 
     @classmethod
     def tearDownClass(cls):

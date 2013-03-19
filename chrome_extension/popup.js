@@ -65,10 +65,13 @@ function clickHandler(e) {
 // });
 $(document).ready(function(){
     $('button[name=calendar]').bind('click', function() {
-      chrome.tabs.create({url: "http://127.0.0.1:8559/calendar"});
-      });
+	chrome.tabs.create({url: "http://127.0.0.1:8559/calendar"});
+    });
     $('button[name=submit]').bind('click', clickHandler);
 
+    $('button[name=permanent]').bind('click', function() {
+	chrome.tabs.create({url: "http://127.0.0.1:8559/recruits"});
+    });
 });
 
 

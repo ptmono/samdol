@@ -2,9 +2,10 @@
 
  - Add tagging
  - autocompletion for tagging
- - wupport sqlite
- - linux package or deamon
- - chrome package
+ - support sqlite
+ - support google calendar
+ C linux package or daemon
+ C chrome package
  D Reporting
 
 
