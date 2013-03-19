@@ -1,0 +1,9 @@
+BeautifulSoup==3.2.1
+cssselect==0.7.1
+lockfile==0.9.1
+mongoengine==0.7.9
+pymongo==2.4.1
+python-daemon==1.6
+wsgiref==0.1.2
+yolk==0.4.3
+Jinja2==2.6

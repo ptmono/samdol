@@ -1,0 +1,48 @@
+{% extends "jinja_common.html" %}
+{% block content %}
+<div class="content_list">
+  <div class="column_header">
+    <table class="list_table">
+      <tr>
+        <td class="column_num_h">Idx.</td>
+        <td class="column_b_n_t"></td>
+        <td class="column_title_h">Title</td>
+        <td class="column_b_t_c"></td>
+        <td class="column_tag_h">End</td>
+      </tr>
+    </table>
+  </div>
+  <table border="0" cellpadding="0" cellspacing="0">
+    <tr>
+      <td width="650" height="1px">
+	<img src="medias/img_line.gif" height="1px" width="90%">
+      </td>
+    </tr>
+  </table>
+
+  <!-- For loop start -->
+  {% for title, start, end, rating, memo, idx, url in articles %}  
+  <div class="column">
+    <table class="list_table">
+      <tr>
+	<td class="column_num">{{ idx }}</td>
+	<td class="column_b_n_t"></td>
+	<td class="column_title"><a href={{ url }}>{{ title }}</a></td>
+	<td class="column_b_t_c"></td>
+	<td class="column_tag">{{ end }}</td>
+      </tr>
+    </table>
+  </div>
+  <table border="0" cellpadding="0" cellspacing="0">
+    <tr>
+      <td width="652" height="1px">
+	<img src="medias/img_line.gif" height="1px" width="90%">
+      </td>
+    </tr>
+  </table>
+  {% endfor %}
+  <!-- End loop -->
+</div>
+{% endblock %}
+
+
