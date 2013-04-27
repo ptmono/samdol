@@ -1,19 +1,18 @@
 <!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head> 
- <title>jQuery Star Rating Plugin v3.14 (2012-02-08)</title>
- <!--// documentation resources //-->
-	<script src='jquery.js' type="text/javascript"></script>
-	<script src='documentation/documentation.js' type="text/javascript"></script>
- <link href='documentation/documentation.css' type="text/css" rel="stylesheet"/>
- <!--// code-highlighting //-->
-	<script type="text/javaScript" src="documentation/chili/jquery.chili-2.0.js"></script> 
-	<!--//documentation/chili-toolbar/jquery.chili-toolbar.pack.js//-->
- <script type="text/javascript">try{ChiliBook.recipeFolder="documentation/chili/"}catch(e){}</script>
+ <title>jQuery Star Rating Plugin v4.11 (2013-03-14)</title>
  <!--// plugin-specific resources //-->
+	<script src='jquery.js' type="text/javascript"></script>
 	<script src='jquery.MetaData.js' type="text/javascript" language="javascript"></script>
  <script src='jquery.rating.js' type="text/javascript" language="javascript"></script>
  <link href='jquery.rating.css' type="text/css" rel="stylesheet"/>
+ <!--// documentation resources //-->
+ <!--<script src="http://code.jquery.com/jquery-migrate-1.1.1.js" type="text/javascript"></script>-->
+ <link type="text/css" href="/@/js/jquery/ui/jquery.ui.css" rel="stylesheet" />
+ <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/jquery-ui.min.js" type="text/javascript"></script>
+ <link href='documentation/documentation.css' type="text/css" rel="stylesheet"/>
+	<script src='documentation/documentation.js' type="text/javascript"></script>
 </head>
 <body>
 <div class="Clear" id="wrap">
@@ -26,7 +25,7 @@
     <td valign="middle" width="10">&nbsp;</td>
     <td valign="middle">
      <h1 style="float:left;">jQuery Star Rating Plugin</h1>
-     v<strong style="color:#000;">3.14 (2012-02-08)</strong>
+     v<strong style="color:#000;">4.11 (2013-03-14)</strong>
     </td>
     <td valign="middle" width="90" align="right">
      <strong style="color:#900;">Buy us a pint</strong>:
@@ -116,9 +115,8 @@
       basic functionality will still be available even if Javascript is disabled.
      </li>
      <li>
-      <strong style="color: rgb(0, 153, 0);">NEW</strong> (12-Mar-08):
-      In read only mode (using the 'readOnly' option or <code>disabled</code> property), the plugin is a neat way of
-      displaying star-like values without any additional code
+      <strong style="color: rgb(0, 153, 0);">NEW</strong> (18-Feb-2013):
+      Compatible with jQuery 1.3+ and the latest 1.9!
      </li>
     </ul>
     
@@ -256,6 +254,10 @@
       </td>
      </tr>
     </table>
+    
+    <!-- advertising -->
+    <p>Make sure to upload these changes on to your server<!--<a href="http://www.webhostingsearch.com/blog-hosting.php">blog hosting server</a>-->, this would be a great plugin for your blogs and review sites</p>
+    
    </div><!--// tab-Overview //-->
    
    <div id="tab-Testing">
@@ -731,19 +733,19 @@ $(function(){
      <span></span>
      <br/>
      By index:
-     <input type="button" onClick="javascript:$('input',this.form).rating('select',0)" value="0"/>
-     <input type="button" onClick="javascript:$('input',this.form).rating('select',1)" value="1"/>
-     <input type="button" onClick="javascript:$('input',this.form).rating('select',2)" value="2"/>
-     <input type="button" onClick="javascript:$('input',this.form).rating('select',3)" value="3"/>
-     <input type="button" onClick="javascript:$('input',this.form).rating('select',4)" value="4"/>
+     <input type="button" onClick="javascript:$('input[type=radio]',this.form).rating('select',0)" value="0"/>
+     <input type="button" onClick="javascript:$('input[type=radio]',this.form).rating('select',1)" value="1"/>
+     <input type="button" onClick="javascript:$('input[type=radio]',this.form).rating('select',2)" value="2"/>
+     <input type="button" onClick="javascript:$('input[type=radio]',this.form).rating('select',3)" value="3"/>
+     <input type="button" onClick="javascript:$('input[type=radio]',this.form).rating('select',4)" value="4"/>
      eg.: $('input').rating('select',3)
      <br/>
      By value:
-     <input type="button" onClick="javascript:$('input',this.form).rating('select',this.value)" value="A"/>
-     <input type="button" onClick="javascript:$('input',this.form).rating('select',this.value)" value="B"/>
-     <input type="button" onClick="javascript:$('input',this.form).rating('select',this.value)" value="C"/>
-     <input type="button" onClick="javascript:$('input',this.form).rating('select',this.value)" value="D"/>
-     <input type="button" onClick="javascript:$('input',this.form).rating('select',this.value)" value="E"/>
+     <input type="button" onClick="javascript:$('input[type=radio]',this.form).rating('select',this.value)" value="A"/>
+     <input type="button" onClick="javascript:$('input[type=radio]',this.form).rating('select',this.value)" value="B"/>
+     <input type="button" onClick="javascript:$('input[type=radio]',this.form).rating('select',this.value)" value="C"/>
+     <input type="button" onClick="javascript:$('input[type=radio]',this.form).rating('select',this.value)" value="D"/>
+     <input type="button" onClick="javascript:$('input[type=radio]',this.form).rating('select',this.value)" value="E"/>
      eg.: $('input').rating('select','C')
     </form>
     
@@ -774,10 +776,10 @@ $(function(){
      "/>
      <span></span>
      <br/>
-     <input type="button" onClick="javascript:$('input',this.form).rating('readOnly',true)" value="Set readOnly = true"/>
+     <input type="button" onClick="javascript:$('input[type=radio]',this.form).rating('readOnly',true)" value="Set readOnly = true"/>
      eg.: $('input').rating('readOnly',true)
      <br/>
-     <input type="button" onClick="javascript:$('input',this.form).rating('readOnly',false)" value="Set readOnly = false"/>
+     <input type="button" onClick="javascript:$('input[type=radio]',this.form).rating('readOnly',false)" value="Set readOnly = false"/>
      eg.: $('input').rating('readOnly',false) or simply $('input').rating('readOnly');
     </form>
     
@@ -808,10 +810,10 @@ $(function(){
      "/>
      <span></span>
      <br/>
-     <input type="button" onClick="javascript:$('input',this.form).rating('disable')" value="disable"/>
+     <input type="button" onClick="javascript:$('input[type=radio]',this.form).rating('disable')" value="disable"/>
      eg.: $('input').rating('disable')
      <br/>
-     <input type="button" onClick="javascript:$('input',this.form).rating('enable')" value="enable"/>
+     <input type="button" onClick="javascript:$('input[type=radio]',this.form).rating('enable')" value="enable"/>
      eg.: $('input').rating('enable');
     </form>
    </div><!--// tab-API //-->
@@ -849,10 +851,11 @@ $(function(){
      the interface would still work with Javascript disabled making it <em>beautifully downgradable</em>. </li>
     <li> Then I came along and noticed a fundamental flaw with the latter: there could only
      be one star rating control per page. The rest of the story is what you will see below... </li>
-    <li> <strong style="color: rgb(0, 153, 0);">NEW</strong> (12-Mar-08): Then <strong>Keith Wood</strong> added some very nice functionality to the plugin:
+    <li> (12-Mar-08): Then <strong>Keith Wood</strong> added some very nice functionality to the plugin:
      option to disable the cancel button, option to make the plugin readOnly and ability to accept any value (other than whole numbers) </li>
-    <li> <strong style="color: rgb(0, 153, 0);">NEW</strong> (20-Mar-08): Now supports half-star, third-star, quater-star, etc... Not additional code required. No additional images required. </li>
-    <li> <strong style="color: rgb(0, 153, 0);">NEW</strong> (31-Mar-08): Two new events, hover/blur (arguments: [value, linkElement]) </li>
+    <li> (20-Mar-08): Now supports half-star, third-star, quater-star, etc... Not additional code required. No additional images required. </li>
+    <li> (31-Mar-08): Two new events, hover/blur (arguments: [value, linkElement]) </li>
+    <li> <strong style="color: rgb(0, 153, 0);">NEW</strong> (18-Feb-2013): Compatible with jQuery 1.6, 1.7, 1.8 and 1.9! </li>
     </ul>
    </div><!--// tab-Background //-->
    
@@ -868,7 +871,7 @@ $(function(){
       <td valign="top">
        <big>
         <img src="documentation/download.gif" style="margin:0 5px 5px 0; float:left;">
-        v<strong>3.14</strong>
+        v<strong>4.11</strong>
         <a href="http://jquery-star-rating-plugin.googlecode.com/svn/trunk/star-rating.zip"><strong>star-rating.zip</strong></a>
        </big>
       </td>
@@ -891,8 +894,8 @@ $(function(){
       <td valign="top">
        These are the individual required files (<span class="Warning">already included in the zip package above</span>)
        <ul>
-        <li><a target="_blank" href='http://jquery-star-rating-plugin.googlecode.com/svn/trunk/jquery.rating.pack.js'><strong>jquery.rating.pack.js</strong></a> (4.1kb) packed, tiny and ready to use - <strong>recommended</strong></li>
-        <li>...or unpacked version for development purposes: <a href="http://jquery-star-rating-plugin.googlecode.com/svn/trunk/jquery.rating.js">jquery.rating.js</a> (14.1kb) - <em>optional</em></li>
+        <li><a target="_blank" href='http://jquery-star-rating-plugin.googlecode.com/svn/trunk/jquery.rating.pack.js'><strong>jquery.rating.pack.js</strong></a> (~5kb) packed, tiny and ready to use - <strong>recommended</strong></li>
+        <li>...or unpacked version for development purposes: <a href="http://jquery-star-rating-plugin.googlecode.com/svn/trunk/jquery.rating.js">jquery.rating.js</a> (~14kb) - <em>optional</em></li>
         <li><a target="_blank" href="http://jquery-star-rating-plugin.googlecode.com/svn/trunk/jquery.rating.css"><strong>jQuery.Rating.css</strong></a></li>
         <li><a target="_blank" href="http://jquery-star-rating-plugin.googlecode.com/svn/trunk/delete.gif"><strong>delete.gif</strong></a></li>
         <li><a target="_blank" href="http://jquery-star-rating-plugin.googlecode.com/svn/trunk/star.gif"><strong>star.gif</strong></a></li>
@@ -902,7 +905,7 @@ $(function(){
      <tr>
       <td valign="top" align="right">jQuery:</td>
       <td valign="top">
-       <a target="_blank" href="http://jquery.com/src/jquery-latest.js">jquery-latest.js</a> (<a target="_blank" href="http://www.jquery.com/">see jQuery.com</a>)
+       <a target="_blank" href="http://code.jquery.com/jquery-1.9.1.min.js">jquery-1.9.1.min.js</a> (<a target="_blank" href="http://www.jquery.com/">see jQuery.com</a>)
       </td>
      </tr>
     </table>
@@ -947,7 +950,7 @@ $(function(){
     <h2>Alternative Download - From this website</h2>
     <p>
      Just in case it's the end of the world and the Google Code site becomes unavailable,
-     the project files can also be downloaded form this site.
+     the project files can also be downloaded from this site.
      <br/>
      However, please note that this site is updated periodically whereas the Google Code
      project is kept up-to-date almost instantaneously. If you'd like the very latest
@@ -960,7 +963,7 @@ $(function(){
       <td valign="top" align="right">Full Package:</td>
       <td valign="top">
        <img src="documentation/download.gif" style="margin:0 5px 5px 0; float:left;">
-       v<strong>3.14</strong>
+       v<strong>4.11</strong>
        <a href="./star-rating.zip"><strong>star-rating.zip</strong></a>
       </td>
      </tr>
@@ -982,8 +985,8 @@ $(function(){
       <td valign="top">
        These are the individual required files (<span class="Warning">already included in the zip package above</span>)
        <ul>
-        <li><a target="_blank" href='./jquery.rating.pack.js'><strong>jquery.rating.pack.js</strong></a> (4.1kb) packed, tiny and ready to use - <strong>recommended</strong></li>
-        <li>...or unpacked version for development purposes: <a href="./jquery.rating.js">jquery.rating.js</a> (14.1kb) - <em>optional</em></li>
+        <li><a target="_blank" href='./jquery.rating.pack.js'><strong>jquery.rating.pack.js</strong></a> (~5kb) packed, tiny and ready to use - <strong>recommended</strong></li>
+        <li>...or unpacked version for development purposes: <a href="./jquery.rating.js">jquery.rating.js</a> (~14kb) - <em>optional</em></li>
         <li><a target="_blank" href='./jquery.rating.css'><strong>jQuery.Rating.css</strong></a></li>
         <li><a target="_blank" href="./delete.gif"><strong>delete.gif</strong></a></li>
         <li><a target="_blank" href="./star.gif"><strong>star.gif</strong></a></li>
@@ -993,7 +996,7 @@ $(function(){
      <tr>
       <td valign="top" align="right">jQuery:</td>
       <td valign="top">
-       <a target="_blank" href="http://jquery.com/src/jquery-latest.js">jquery-latest.js</a> (<a target="_blank" href="http://www.jquery.com/">see jQuery.com</a>)
+       <a target="_blank" href="http://code.jquery.com/jquery-1.9.1.min.js">jquery-1.9.1.min.js</a> (<a target="_blank" href="http://www.jquery.com/">see jQuery.com</a>)
       </td>
      </tr>
     </table>
@@ -1103,11 +1106,12 @@ $(function(){
       <table cellspacing="5" width="100%">
        <tr>
         <td valign="middle">
-         <strong>Multiple File Upload Plugin</strong>
+         <strong>Star Rating Plugin</strong>
          by <a href="http://www.fyneworks.com/">Fyneworks.com</a>
-         is licensed under the
-         <a target="_blank" href="http://en.wikipedia.org/wiki/MIT_License">MIT License</a> and the
-         <a target="_blank" href="http://creativecommons.org/licenses/GPL/2.0/">GPL License</a>.
+         is licensed,
+         <a target="_blank" href="http://jquery.org/license">as jQuery is</a>,
+         under the
+         <a target="_blank" href="http://en.wikipedia.org/wiki/MIT_License">MIT License</a>.
         </td>
         <td width="100"><a target="_blank" href="http://creativecommons.org/licenses/GPL/2.0/"><img alt="Creative Commons License" style="border-width:0" src="http://creativecommons.org/images/public/somerights20.png"/></a></td>
        </tr>
@@ -1225,14 +1229,14 @@ $(function(){
     <br/>
     Licensed under the
     <a target="_blank" href="http://en.wikipedia.org/wiki/MIT_License">MIT License</a> and the
-    <a target="_blank" href="http://creativecommons.org/licenses/GPL/2.0/">GPL License</a>.
+    <a target="_blank" href="http://creativecommons.org/licenses/GPL/2.0/">GPL License (2.0)</a>.
    </td>
    <td valign="top" align="center">&nbsp;
     
    </td>
-   <td valign="top" width="280" align="right">
+   <td valign="top" width="400" align="right">
     <span style="color:#090;">
-     Tested with jQuery 1.7 on:<br/>IE6, IE7, IE8, FF, Chrome, Opera and Safari
+     Tested with jQuery 1.9 on:<br/>IE6, IE7, IE8, FF, Chrome, Opera and Safari
     </span>
    </td>
    <td valign="top" width="120" align="right">

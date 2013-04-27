@@ -77,25 +77,55 @@ td { font-size: 12px; }
 
 
 def calendar():
-    config.logger.info("Start view.calendar()")
+    config.logger.debug("Start view.calendar()")
     dump = recruits()
-    config.logger.debug(dump)
+    #config.logger.debug(dump) #print db
     return base_html % dump
 
+def allcalendar():
+    config.logger.debug("Start view.allcalendar()")    
+    try:
+        connect(config.db_name)
+        recs = Recruit.objects
+        config.logger.debug(recs)
+    except Exception, err:
+        config.logger.error(repr(err))
+    dump = documents2jsondump(recs)
+    return base_html % dump
+    
 
 def recruits():
-    config.logger.info("Start view.recruits()")    
+    recs = _recruits()
+    return documents2jsondump(recs)
+
+
+def _recruits():
+    config.logger.debug("Start view.recruits()")    
     try:
         connect(config.db_name)
         today = datetime.today()
         yesterday = today + timedelta(-1)
         recs = Recruit.objects
-        config.logger.debug(recs)
+        #config.logger.debug(recs) #print response
         recs = Recruit.objects(end__gt = yesterday)
         config.logger.debug(recs)
     except Exception, err:
         config.logger.error(repr(err))
-    return documents2jsondump(recs)
+    return recs
+
+def add_color(recs):
+    colors = {'1': '#D8D8D8', '2': '#959595', '3': '#0009FF', '4': '#970000', '5': '#FF0000'}
+    new_recs = []
+    recs = _recruits()
+    for rec in recs:
+        try:
+            color = colors[rec.rating]
+        except:
+            color = '3'
+        rec.color = color
+        new_recs.append(rec)
+    return new_recs
+
 
 # def recruits():
 #     pr = ViewRecruits()
@@ -138,7 +168,13 @@ class ViewAbstract(object):
         return self.content
 
 
+
 class ViewRecruits(ViewAbstract):
+
+    # def __init__(self, query):
+    #     self.query = query
+    #     super(ViewRecruits, self).__init__()
+    
     def getContent(self):
         result = ''
         infos = self._getContent()
@@ -159,16 +195,17 @@ class ViewRecruits(ViewAbstract):
 
         for info in infos:
             try:
-                print info.to_mongo()
-                end = info.end.strftime("%m-%d/%y")
-                start = info.end.strftime("%m-%d/%y")                
+                #print info.to_mongo()
+                time_format = "%y%m%d"
+                end = info.end.strftime(time_format)
+                start = info.end.strftime(time_format)
             except:
                 end = None
                 start = None
             element = (info.title, start, end, info.rating,
                        info.memo, info.idx, info.url)
             info_l.append(element)
-        info_l.reverse()
+        info_l = sorted(info_l, key=lambda element: element[2], reverse=True)
         return info_l
 
 class ViewPermanentRecruits(ViewRecruits):
@@ -180,16 +217,16 @@ class ViewPermanentRecruits(ViewRecruits):
 
         for info in infos:
             try:
-                print info.to_mongo()
-                end = info.end.strftime("%m-%d/%y")
-                start = info.end.strftime("%m-%d/%y")                
+                #print info.to_mongo()
+                time_format = "%y%d%m"
+                end = info.end.strftime(time_format)
+                start = info.end.strftime(time_format)
             except:
                 end = None
                 start = None
             element = (info.title, start, end, info.rating,
                        info.memo, info.idx, info.url)
             info_l.append(element)
-        info_l.reverse()
+        sorted(info_l).reverse()
         return info_l
-        
         

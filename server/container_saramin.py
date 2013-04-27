@@ -157,7 +157,7 @@ class SaraminContainer(InfoBase):
 
     def get_idx(self):
         try:
-            pattern = re.compile('(idx=|recIdx/)([0-9]+)')
+            pattern = re.compile('(idx=|recIdx/|idx/)([0-9]+)')
             match = pattern.search(self.url)
             result = match.group(2)
         except Exception, err:

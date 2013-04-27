@@ -6,14 +6,16 @@
 !include Sections.nsh 			;UnselectSection
 
 !define NAME "samdolc"
-!define CRX_VERSION "0.1"
+!define OUT_FILENAME "__OUT_FILENAME"
+!define CRX_VERSION "__CRX_VERSION"
+!define CRX_NAME "__CRX_NAME"
 !define CRX_ID "onpobpkjhjihnhmjpjemcedjebllieoi"
 !define BUILD_DIR "tmp\build_exe"
 
 
 Name "${NAME}"
 
-outFile "${NAME}-${CRX_VERSION}.exe"
+outFile "${OUT_FILENAME}.exe"
 
 InstallDir $PROGRAMFILES\${NAME}
 
@@ -55,9 +57,9 @@ Section "Start Menu Shortcuts"
 SectionEnd
 
 Section "Install crome extention"
-  WriteRegStr HKLM "Software\Google\Chrome\Extensions\${CRX_ID}" "path" "$INSTDIR\${NAME}.crx"
+  WriteRegStr HKLM "Software\Google\Chrome\Extensions\${CRX_ID}" "path" "$INSTDIR\${CRX_NAME}"
   WriteRegStr HKLM "Software\Google\Chrome\Extensions\${CRX_ID}" "version" "${CRX_VERSION}"
-  WriteRegStr HKLM "Software\Wow6432Node\Google\Chrome\Extensions\${CRX_ID}" "path" "$INSTDIR\${NAME}.crx"
+  WriteRegStr HKLM "Software\Wow6432Node\Google\Chrome\Extensions\${CRX_ID}" "path" "$INSTDIR\${CRX_NAME}"
   WriteRegStr HKLM "Software\Wow6432Node\Google\Chrome\Extensions\${CRX_ID}" "version" "${CRX_VERSION}"
 SectionEnd
 

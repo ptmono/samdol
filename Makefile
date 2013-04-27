@@ -1,42 +1,56 @@
-NAME=$(shell cat samdolc.spec |grep Name |sed -n '1p' |awk '{print $$2}')
-MAINVER=$(shell cat samdolc.spec |grep mainver |sed -n '1p' |awk '{print $$3}')
-RELEASE=$(shell cat samdolc.spec |grep Release |sed -n '1p' |awk '{print $$2}')
-RPM_NAME=${NAME}-${MAINVER}-${RELEASE}.noarch.rpm
+NAME=$(shell cat samdolc.spec |grep Name |sed -n '1p' |gawk '{print $$2}')
+MAINVER=$(shell cat samdolc.spec |grep mainver |sed -n '1p' |gawk '{print $$3}')
+RELEASE=$(shell cat samdolc.spec |grep Release |sed -n '1p' |gawk '{print $$2}')
+EXT_VER=0.1
+EXT_RELEASE=1
 TARBALL_NAME=${NAME}-${MAINVER}.tar.gz
 BUILD_DIRR=$(shell pwd)/tmp
-EXE_NAME=${NAME}_installer.exe
 
+RPM_NAME=${NAME}-${MAINVER}-${RELEASE}.noarch.rpm
+EXE_NAME=${NAME}-${MAINVER}-${RELEASE}-installer.exe
+
+#EXT_NAME=${NAME}-${EXT_VER}-${EXT_RELEASE}.crx
+EXT_NAME=${NAME}.crx #More convenient to use the static name
+EXT_EXTERNAL_JSON=onpobpkjhjihnhmjpjemcedjebllieoi.json
+EXT_EXTERNAL_PATH=~/myscript/tmp/chrome-linux/extensions
+
+NSI_PY2EXE_SAMPLE_NAME=samdolc_py2exe.nsi
+NSI_PY2EXE_NAME=${NAME}-${MAINVER}.nsi
+
+#Fixme: We need any method to get current_path on windows. chrome.exe
+#doesn't understand posix directory
 SYS := $(shell gcc -dumpmachine)
 ifneq (, $(findstring linux, $(SYS)))
 CHROME_CMD=chrome-cvs
+CURRENT_PATH=$(shell pwd)
 else ifneq(, $(findstring mingw, $(SYS)))
-NSIS_CMD="C:/Program Files (x86)/NSIS/makensis.exe"
+NSIS_CMD="$(PROGRAMFILES)/NSIS/makensis.exe"
 CHROME_CMD="$(USERPROFILE)/Local Settings/Application Data/Google/Chrome/Application/chrome.exe"
+CURRENT_PATH="c:\emacsd\cygwin\home\ptmono\works_xp\samdol"
 else ifneq(, $(findstring cygwin, $(SYS)))
-NSIS_CMD="C:/Program Files (x86)/NSIS/makensis.exe"
+NSIS_CMD="$(PROGRAMFILES(x86))/NSIS/makensis.exe"
 CHROME_CMD="$(USERPROFILE)/Local Settings/Application Data/Google/Chrome/Application/chrome.exe"
+CURRENT_PATH="c:\emacsd\cygwin\home\ptmono\works_xp\samdol"
 endif
 
-CURRENT_PATH=$(shell pwd)
 
-
-CHROME_PACKAGE=samdolc.crx
-CHROME_EXTERNAL_JSON=onpobpkjhjihnhmjpjemcedjebllieoi.json
-CHROME_EXTERNAL_PATH=~/myscript/tmp/chrome-linux/extensions
 
 create-chrome-package:
-	if [ -f ${CHROME_PACKAGE} ]; then rm ${CHROME_PACKAGE}; fi
+	if [ -f ${EXT_NAME} ]; then rm ${EXT_NAME}; fi
 	${CHROME_CMD} --pack-extension=${CURRENT_PATH}/chrome_extension --pack-extension-key=${CURRENT_PATH}/chrome_extension.pem
-	mv chrome_extension.crx ${NAME}.crx
+	mv chrome_extension.crx ${EXT_NAME}
 
 install-chrome-package:
-	cp ${CHROME_EXTERNAL_JSON} ${CHROME_EXTERNAL_PATH}
+	cp ${EXT_EXTERNAL_JSON} ${EXT_EXTERNAL_PATH}
 
 remove-chrome-package:
-	rm ${CHROME_EXTERNAL_PATH}/${CHROME_EXTERNAL_JSON}
+	rm ${EXT_EXTERNAL_PATH}/${EXT_EXTERNAL_JSON}
+
+prepare-exe-nsi:
+	sed -e 's/__OUT_FILENAME/${EXE_NAME}/g' -e 's/__CRX_VERSION/${EXT_VER}-${EXT_RELEASE}/g' -e 's/__CRX_NAME/${EXT_NAME}'${NSI_PY2EXE_SAMPLE_NAME} > ${NSI_PY2EXE_NAME}
 
 
-prepare-exe: clean-tmp zip-exe
+prepare-exe: clean-tmp zip-exe prepare-exe-nsi
 	if [ ! -d tmp/build_exe ]; then mkdir -p tmp/build_exe; fi
 	tar zxvf ${TARBALL_NAME} -C tmp/build_exe
 
@@ -54,9 +68,10 @@ exe-py2exe: clean-tmp py2exe crx
 	cp -r server/tools tmp/build_exe/server
 	cp -r server/medias tmp/build_exe/server
 	cp -r tools tmp/build_exe
-	cp ${CHROME_PACKAGE} tmp/build_exe
-	${NSIS_CMD} ${NAME}_py2exe.nsi
+	cp ${EXT_NAME} tmp/build_exe
+	${NSIS_CMD} ${NSI_PY2EXE_NAME}
 	rm -rf tmp/build_exe
+	rm ${NSI_PY2EXE_NAME}
 
 crx: create-chrome-package
 
@@ -75,6 +90,9 @@ zip-exe: crx
 rpm: build-rpm-pre
 	rpmbuild -bb --sign --define="_buildshell /bin/bash" --define="_topdir ${BUILD_DIRR}" --define="_sourcedir `pwd`/" samdolc.spec
 	mv ${BUILD_DIRR}/RPMS/noarch/${RPM_NAME} ./
+
+ddinstall: rpm
+	sudo rpm -Uvh --force --nodeps ${RPM_NAME}
 
 build-rpm-pre: zip-rpm
 	mkdir -p ${BUILD_DIRR}/{BUILDROOT,BUILD,RPMS,SOURCES,SPECS,SRPMS}
@@ -111,5 +129,5 @@ clean-virtualenv:
 	rm -rf lib
 	rm lib64
 
-test:
+test2:
 	${NSIS_CMD} ttt2.nsi

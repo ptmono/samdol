@@ -8,7 +8,8 @@
 	"tabs",
 	"contextMenus",
 	"http://www.saramin.co.kr/*",
-	"http://localhost:8559/*"
+	"http://localhost:8559/*",
+	"http://127.0.0.1:8559/*"
 
     ],
 
@@ -22,6 +23,23 @@
 		    "tools/jquery-1.8.3.min.js",
 		    "tools/jquery.bpopup-0.7.0.min.js"
 		   ]
+    },
+
+    "content_scripts": [
+	{
+	    "matches": ["file:///*", "http://*/*", "https://*/*"],
+	    "js": ["contentscript.js"]
+	}
+    ],
+
+
+    "commands" : {
+
+	"_execute_browser_action": {
+	    "suggested_key": {
+		"default": "Alt+D"
+	    }
+	}
     }
 }
 

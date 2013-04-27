@@ -3,6 +3,7 @@
 
 from os.path import dirname, abspath
 
+
 current_abpath = abspath(dirname(__file__)) + "/"
 # With py2exe the dirname to be INSTPATH/server/library.zip. So
 # current_abpath will be INSTPATH/server/library.zip/
@@ -36,7 +37,8 @@ daemon_pid_file_path = '/tmp/samdolc.pid'
 ### ______________________________________________________________
 import logging
 
-LOG_TO_FILEP = True
+
+LOG_TO_FILEP = False
 if LOG_TO_FILEP:
     LOG_FILE_FILENAME = current_abpath + 'logging.log'
     LOG_FILE_MODE = 'a'
@@ -44,13 +46,25 @@ else:
     LOG_FILE_FILENAME = None
     LOG_FILE_MODE = None
 
-LOG_FORMAT = '%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s'
+LOG_FORMAT = '%(asctime)s, %(msecs)d [%(levelname)s] %(filename)s#%(lineno)d(%(funcName)s) ==> %(message)s'
 LOG_TIME_FORMAT = '%Y-%m-%dT%H:%M:%S'
-LOG_LEVEL = logging.DEBUG
 
+if LOG_TO_FILEP:
+    LOG_LEVEL = logging.ERROR
+else:
+    LOG_LEVEL = logging.DEBUG
+
+    
 logging.basicConfig(filename=LOG_FILE_FILENAME,
                             filemode=LOG_FILE_MODE,
                             format=LOG_FORMAT,
                             datefmt=LOG_TIME_FORMAT,
                             level=LOG_LEVEL)
 logger = logging.getLogger('samdolc')
+
+class Var:
+    status = {'OK': '000',
+              'NoContainerException': '401',
+              'ConnectionError': '402'
+              }
+

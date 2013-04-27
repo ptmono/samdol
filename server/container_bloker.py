@@ -2,6 +2,8 @@
 # coding: utf-8
 
 import re
+
+from dexceptions import NoContainerException
 from container_base import InfoBase
 
 # TODO: Easy way? to automatically add the containers.
@@ -61,9 +63,5 @@ class ContainerBloker(object):
     def setContainer(self, url):
         self.container = self.getContainer(url)
 
-
-
-class NoContainerException(Exception):
-    pass
 
 

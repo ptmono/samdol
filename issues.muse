@@ -1,7 +1,91 @@
 -*- mode: muse -*-
 
 
-* 1301240542 additional url
+* [IDEA] Interact with recruits - view
+
+In recruit view
+
+ - Subscript announcement of the company
+
+[[~/.emacs.d/imgs/image2402.jpg]]
+
+   This requires crawler.
+ - How about filtering
+ - Manage cv proposal
+
+
+* [IDEA] About UX
+#1304161632
+
+ - C-d will bookmark the site.
+ - On chrome-extension
+   - C-1/2/3/4/5 : Set the priority
+   - Support basic emacs moving keybinding
+   - C-enter : Submit the request
+
+
+* Check priority with color on calendar
+#1303281042
+
+** To specify the color is hard ?
+
+ data(3) ---> 
+
+
+
+* problem with error handling
+#1304161620
+
+Today I fixed a problem to support following url
+ - http://www.saramin.co.kr/zf_user/recruit/view/idx/15055533
+
+The reason of following error is that samdolc fails to parse the url
+
+<quote>
+2013-04-16T15:34:26, 917 [ERROR] container_saramin.py#164(get_idx) ==> AttributeError("'NoneType' object has no attribute 'group'",)
+----------------------------------------
+Exception happened during processing of request from ('127.0.0.1', 35741)
+Traceback (most recent call last):
+  File "/usr/lib64/python2.7/SocketServer.py", line 582, in process_request_thread
+    self.finish_request(request, client_address)
+  File "/usr/lib64/python2.7/SocketServer.py", line 323, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/usr/lib64/python2.7/SocketServer.py", line 639, in __init__
+    self.handle()
+  File "/usr/lib64/python2.7/BaseHTTPServer.py", line 337, in handle
+    self.handle_one_request()
+  File "/usr/lib64/python2.7/BaseHTTPServer.py", line 325, in handle_one_request
+    method()
+  File "samdolc.py", line 208, in do_GET
+    action.dododo()
+  File "samdolc.py", line 85, in dododo
+    method()
+  File "samdolc.py", line 142, in post
+    info.save()
+  File "/home/ptmono/Desktop/Documents/works/0git/samdol/server/db.py", line 211, in save
+    result = self.obj.save()
+  File "/home/ptmono/lib/python2.7/site-packages/mongoengine-0.7.6-py2.7.egg/mongoengine/document.py", line 208, in save
+    self.validate()
+  File "/home/ptmono/lib/python2.7/site-packages/mongoengine-0.7.6-py2.7.egg/mongoengine/base.py", line 1029, in validate
+    raise ValidationError('ValidationError', errors=errors)
+ValidationError: ValidationError(Field is required: ['idx'])
+</quote>
+
+On chrome-extension the response message continuously shows "Parsing...".
+It seems good in which the message box shows the error. How about to apply
+the exception into command decorator to solve this problem.
+
+
+
+* problems about rating
+#1303291012
+
+ - Why 6 star ?
+ - star reset problem. It is inconvenient.
+
+
+* additional url
+#1301240542
 
 Parse following url
 
@@ -10,19 +94,25 @@ http://www.saramin.co.kr/zf_user/special-recruit/list/bcode/48/code/D8/page/1/pa
 http://www.saramin.co.kr/zf_user/special-recruit/list/bcode/51/code/E1/search_area/2/page/1/pageCount/80/CategoryViewFlag/1/recIdx/14053736
 
 
-* Container encoding error with urllib
-
-Current time, parser.Container uses PyQt to get the source of page. The
-reason is urllib has decoding problem with urllib. PyQt need few second to
-get the source. urllib is fast than.
-
-
-* 1301161926 Problem for no company summary page
+* Problem for no company summary page
+#1301161926
 
  -
    http://www.saramin.co.kr/recruit/RecruitBbsSearch.php?oq=rd&code=bbs_recruit&mode=view&idx=14128746
 
 
-* [DONE]1302080444 It is problem rpm update
+* [DONE] It is problem rpm update
+#1302080444
 
 We have to remove samdolc before install.
+
+
+* [DONE] Container encoding error with urllib
+
+Current time, parser.Container uses PyQt to get the source of page. The
+reason is urllib has decoding problem with urllib. PyQt need few second to
+get the source. urllib is fast than.
+
+r203
+
+

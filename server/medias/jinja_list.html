@@ -23,7 +23,7 @@
   <!-- For loop start -->
   {% for title, start, end, rating, memo, idx, url in articles %}  
   <div class="column">
-    <table class="list_table">
+    <table class="list_table{{ rating }}">
       <tr>
 	<td class="column_num">{{ idx }}</td>
 	<td class="column_b_n_t"></td>

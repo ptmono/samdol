@@ -75,6 +75,9 @@ class Var:
     # Variables are static. Restore the variables
     >>> Var.prefix = '/usr/local'
     >>> Var.dir = 'share/samdolc'
+
+    >>> #Get crx abpath
+    >>> Var.getCrxPath() #doctest: +SKIP
     '''
 
     files = Libs.file_list('file_list_on_rpm')
@@ -104,6 +107,16 @@ class Var:
             return addSlush(Var.prefix) + Var.dir
         else:
             return Var.prefix
+
+    @staticmethod
+    def getCrxPath():
+        crx_name = None
+        for name in os.listdir('./'):
+            if (name[-4:]).lower() == '.crx':
+                crx_name = name
+
+        return Var.install_dir() + '/' + crx_name
+        
 
 
 # From http://stackoverflow.com/questions/3041986/python-command-line-yes-no-input
@@ -245,7 +258,7 @@ chrome_external_json_base = '''{ \
 
 def install_chrome_extension():
     '''
-    >>> install_chrome_extension()
+    >>> #install_chrome_extension()
     '''
     target_directory = '/opt/google/chrome/extensions'
     chrome_external_filename = 'onpobpkjhjihnhmjpjemcedjebllieoi.json'

@@ -29,4 +29,10 @@ var context_json = {"title": "Save this recruit",
 		    "onclick": genericOnClick
 		   };
 
+
+chrome.commands.onCommand.addListener(function(command) {
+    console.log('Command:', command);
+});
+
 chrome.contextMenus.create(context_json);
+

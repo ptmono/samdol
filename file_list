@@ -35,13 +35,7 @@ server/samdolcd_linux.py
 server/samdolcd.py
 server/samdolc.py
 server/view.py
-server/etc/saramin.html
-server/etc/cominfo.html
-server/etc/view.html
-server/etc/worknet.html
-server/etc/worknet2.html
-server/etc/worknet3.html
-server/etc/worknet4.html
+server/dexceptions.py
 server/tools/fullcalendar-1.5.4/fullcalendar/fullcalendar.css
 server/tools/fullcalendar-1.5.4/fullcalendar/fullcalendar.js
 server/tools/fullcalendar-1.5.4/fullcalendar/fullcalendar.min.js

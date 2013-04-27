@@ -1,3 +1,14 @@
+var Var = {
+    host: "127.0.0.1",
+    port: "8559",
+    // have to sync with server/config.Var.status
+    status: {
+	"000": "Reset to change!", 		//All OK
+	"401": 'Url not supported', 		//NoContainerException
+	"402": 'Maybe server is not work'       //ConnectionError
+    }
+};
+
 var Info = { 
     url: "",
     rating: "", 
@@ -15,22 +26,36 @@ var Info = {
 
 };
 
+function createUrl(req) {
+    return "http://" + Var.host + ":" + Var.port + "/" + req;
+}
+
 function clickHandler(e) {
 
     chrome.tabs.getSelected(null, function(tab) {
-	var myObj = Info.get(tab);
 
-	var url = "http://localhost:8559/post";// + JSON.stringify(myObj);
+	var myObj = Info.get(tab);
+	var url = createUrl("post");// + JSON.stringify(myObj);
+	$("#response").html("Parsing...");
 	$.ajax({ type: "GET",
 		 url: url,
 		 // It seems data automatically escaped.
 		 data: { url: tab.url,
 			 rating: $("input:radio:checked").val(),
 			 memo: $(".comment").val()
-		       }
-	       });
-	$("#response").html("OK");
+		       },
 
+		 success: function (data) {
+		     // Fixme: I have no idea why data contains None string.
+		     var data_s = data.replace("None", "");
+		     var msg = $.evalJSON(data_s).msg;
+		     var status = $.evalJSON(data_s).status;
+
+		     console.log($.evalJSON(data_s).msg);
+		     $("#response").html(msg);
+		 }
+
+	       });
     });
 }
 
@@ -64,16 +89,54 @@ function clickHandler(e) {
 //   document.querySelector('button').addEventListener('click', clickHandler);
 // });
 $(document).ready(function(){
+    var url_calendar = createUrl("calendar");
+    var url_recruits = createUrl("recruits");
     $('button[name=calendar]').bind('click', function() {
-	chrome.tabs.create({url: "http://127.0.0.1:8559/calendar"});
+	chrome.tabs.create({url: url_calendar});
     });
     $('button[name=submit]').bind('click', clickHandler);
 
     $('button[name=permanent]').bind('click', function() {
-	chrome.tabs.create({url: "http://127.0.0.1:8559/recruits"});
+	chrome.tabs.create({url: url_recruits});
     });
 });
 
+
+
+function redHtml(str){
+    return '<b><font color="red">' + str + '<!/font></b>';
+}
+
+function initPopup(){
+    chrome.tabs.getSelected(null, function(tab) {
+	var url = "http://localhost:8559/get";
+	var send_req = { url: tab.url };
+
+	$.getJSON(url, send_req, function(data) {
+	    console.log(data);
+
+	    if (data.rating){
+	    	$('input').rating('select', data.rating);
+		$(".comment").val(data.memo);
+		$("#response").html("On database");
+	    }
+	    else{
+		$("#response").html(data.msg);
+	    }
+
+	    // TODO: how to get simply the length of json object.
+	    // var key, count = 0;
+	    // for (key in data)
+	    // 	count++;
+	    // if (count)
+	    // 	$("#response").html("On database.");
+	    // else
+	    // 	$("#response").html("New recruit");
+
+	});
+	
+    });
+}
 
 
 ////// How to use jquery star plugin
@@ -85,6 +148,7 @@ $(document).ready(function(){
 //
 // To get the value to be rating, we can use "$("input:radio:checked").val().
 
+// Init star
 $(function(){
     $('.hover-star').rating({
 	focus: function(value, link){
@@ -102,45 +166,12 @@ $(function(){
     });
 });
 
-
-function initPopup(){
-    chrome.tabs.getSelected(null, function(tab) {
-	var url = "http://localhost:8559/get";
-	ak = { url: tab.url };
-
-	$("#hover-notice").html('<b><font color="red">Server is not work</font></b>');
-	$.getJSON(url, ak, function(data) {
-	    if (data.rating)
-		$('input').rating('select', data.rating);
-	    $(".comment").val(data.memo);
-	    $("#hover-notice").html('Reset to change!');
-	    if (data.dberror)
-		$("#hover-notice").html('<b><font color="red">Database doesn\'t work.</font></b>');
-
-	    // TODO: how to get simply the length of json object.
-	    var key, count = 0;
-	    for (key in data)
-		count++;
-	    if (count)
-		$("#response").html("On database.");
-	    else
-		$("#response").html("New recruit");
-
-	});
-	
-    });
-}
-
-// $(document).ready(function(){
-//     $('a').click(function(){
-// 	chrome.tabs.create({url: $(this).attr('href')});
-// 	return false;
-//     });
-// });
-
-
 $(function() {
     initPopup();
     //$(".comment").focus();
+    setTimeout(function() {
+	$('.comment').focus();
+    }, 500);
+
 });
 

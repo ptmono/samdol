@@ -35,3 +35,20 @@ class Test_Samdolc(TestCase):
     #     idx = '13782034'
     #     info = Recruit.objects(idx=idx)[0]
     #     self.assertEqual(info.idx, idx)
+
+
+class Test_SamdolcAction(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        connect(config.db_name_test)
+
+    @classmethod
+    def tearDownClass(cls):
+        Recruit.drop_collection()
+        Company.drop_collection()
+
+    def setUp(self):
+        pass
+    def tearDown(self):
+        pass
+    

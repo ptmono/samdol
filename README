@@ -71,7 +71,19 @@ Use directly from source
 ------------------------
 
  0. Install the required packages
+ $ su
+ $ cat <<EOF > /etc/yum.repos.d/10gen.repo
+[10gen]
+name=10gen Repository
+#baseurl=http://downloads-distro.mongodb.org/repo/redhat/os/i686  #32bit
+baseurl=http://downloads-distro.mongodb.org/repo/redhat/os/x86_64 #64bit
+gpgcheck=0
+enabled=1
+EOF
+ $ yum install PyQt4 python-lxml mongo-10gen mong-10gen-server
  $ pip install virtualenv
+ $ exit
+
  $ virtualenv samdolc
  $ cd samdolc
  $ source bin/activate

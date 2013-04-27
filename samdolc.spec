@@ -3,7 +3,7 @@
 
 Name:		samdolc
 Version:	%{mainver}
-Release:	4
+Release:	5
 License:	Multiple, each package has their license
 Summary:	My own bookmarking tool for recruit
 Group:		Internet
@@ -101,6 +101,10 @@ fi
 
 
 %changelog
+* Tue Apr 16 2013 ptmono <ptmono@gmail.com> 0.1-5
+- Fixed samdolc url
+- Clean up
+
 * Tue Mar 19 2013 ptmono <ptmono@gmail.com> 0.1-4
 - Added permanent recruit view
 

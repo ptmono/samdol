@@ -9,26 +9,36 @@
  D Reporting
 
 
+* 1304081622 automatically maintain added files
+
+
+* 1303291030 using thread
+
+
+* 1303291017 sorting with rating and end
+
+
+* 1303281049 Display the server's response on chrome popup
+
+Chrome extension has no response from server when server has a problem or
+complete the task.
+
+
+
+* 1303281048 Support google app engine
+
+
 * 1301231936  We can configure database name
 
 
 * 1301231932 Determine rpm log path
 
 
-* Support Korean language
+* 1303291019 Problem with saramin
 
+[[~/.emacs.d/imgs/image2345.jpg]]
 
-* [DONE] 1302080713 Support other sites
-
- - work.go.kr
-
-On revision 231.
-
-
-* Response false from server
-
-Chrome extension has no response from server when server has a problem or
-complete the task.
+This will recognized as null when bookmark.
 
 
 * 1301190216 remove data directory on windows when uninstalling
@@ -42,3 +52,18 @@ Confirm the removing of data when uninstalling.
 * 1302070752 Support  installer for xp
 
 Not work
+
+
+
+* Done and Canceled
+
+
+** [Canceled] Support Korean language
+
+
+** [DONE] 1302080713 Support other sites
+
+ - work.go.kr
+
+On revision 231.
+

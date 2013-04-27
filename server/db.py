@@ -56,6 +56,7 @@ class Recruit(Document):
         else:
             self.end = None
 
+            
 class RecruitBase(object):
     '''
 
@@ -117,20 +118,11 @@ class RecruitInfo(RecruitBase):
     def _repr(self):
         result = {}
         try:
-            # datetime value is not JSON serializable. See more
-            # http://stackoverflow.com/questions/455580/json-datetime-between-python-and-javascript
-            result_json = self.json
-            if result_json['end']:     # Can be null
-                datetime_string = result_json['end'].strftime('%Y-%m-%dT%H:%M:%S')
-                result_json['start'] = datetime_string
-                result_json['end'] = datetime_string
-
-                result_json['allDay'] = True
-            result = result_json
-
-        except AttributeError:
-            # There is no self.json. It means that there is no self.obj
-            pass
+            rrepr = RecruitRepr(self.json)
+            result = rrepr.json
+        except AttributeError, err:
+            # There is no self.json. It means that there is no self.obj.
+            config.logger.debug(repr(err))
         return result
 
     def __str__(self):
@@ -235,6 +227,9 @@ class RecruitInfo(RecruitBase):
             return None
 
 
+
+
+
 def test_some_using_mongodb():
     '''
     See
@@ -244,7 +239,7 @@ def test_some_using_mongodb():
 
     >>> test_some_using_mongodb()
     '''
-    connect('aaabbb')
+    connect(config.db_name_test)
 
     # List all recruit
     recruits = list(Recruit.objects)
@@ -307,4 +302,48 @@ def test_some_using_mongodb():
     company.delete()
 
 
+
+class RecruitRepr:
+    '''
+    To use fullcalendar from db we need some modification.
+    
+    >>> date = datetime(2013, 3, 29)
+    >>> js = {'title': 'tit', 'rating': '5', 'end': date}
+    >>> rr = RecruitRepr(js)
+    >>> rr.json
+    {'rating': '5', 'allDay': True, 'end': '2013-03-29T00:00:00', 'title': 'tit', 'color': '#FF0000', 'start': '2013-03-29T00:00:00'}
+    '''
+    def __init__(self, json):
+        self.json = json
+        self.__init()
+        
+    def __init(self):
+        ddirs = dir(self)
+        for method in ddirs:
+            if method[:3] == 'set':
+                func = getattr(self, method)
+                func()
+        
+    def setColor(self):
+        colors = {'1': '#D8D8D8', '2': '#959595', '3': '#3366CC', '4': '#CC2787', '5': '#CC292C'}
+        try:
+            self.json['color'] = colors[self.json['rating']]
+        except:
+            self.json['color'] = colors['3']
+
+    def setStartAndEnd(self):
+        # datetime value is not JSON serializable. See more
+        # http://stackoverflow.com/questions/455580/json-datetime-between-python-and-javascript
+        if self.json['end']:              #Can be null
+            if isinstance(self.json['end'], datetime):
+                self.datetime_str = self.json['end'].strftime('%Y-%m-%dT%H:%M:%S')
+            if isinstance(self.json['end'], str):
+                self.datetime_str = self.json['end']
+                
+            self.json['start'] = self.datetime_str
+            self.json['end'] = self.datetime_str
+            self.json['allDay'] = True
+
+    def setStatus(self):
+        self.json['status'] = config.Var.status['OK']
 

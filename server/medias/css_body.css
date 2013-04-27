@@ -122,3 +122,10 @@ td.column_tag_h { width: 100px; font-weight: bold; font-size: 15px; }
 td.column_b_n_t { width: 10px; }
 td.column_b_t_c { width: 20px; }
 
+table.list_table3 { background-color: white; }
+table.list_table4 { background-color: #ffdadb; }
+table.list_table5 { background-color: #ffdadb; }
+table.list_table5 td.column_tag { color: blue; font-weight: bold;}
+
+table.list_table1 td.column_tag { color: #bbbbbb; }
+table.list_table2 td.column_tag { color: #bbbbbb; }
