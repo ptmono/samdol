@@ -71,6 +71,8 @@ Use directly from source
 ------------------------
 
  0. Install the required packages
+ 
+:: 
  $ su
  $ cat <<EOF > /etc/yum.repos.d/10gen.repo
  [10gen]
