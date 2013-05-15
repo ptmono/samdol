@@ -1,5 +1,6 @@
 .. contents:: :local:
 
+
 Purpose
 =======
 
@@ -52,6 +53,7 @@ will generate samdolc-{VERSION}.noarch.rpm.
 $ sudo rpm -Uvh samdolc-{VERSION}.noarch.rpm
 
 You also need to install google-chrome. See
+
  - http://www.if-not-true-then-false.com/2010/install-google-chrome-with-yum-on-fedora-red-hat-rhel/
 
 
@@ -74,49 +76,58 @@ Use directly from source
 
  0. Install the required packages
  
-| $ su
-| $ cat <<EOF > /etc/yum.repos.d/10gen.repo
-| [10gen]
-| name=10gen Repository
-| #baseurl=http://downloads-distro.mongodb.org/repo/redhat/os/i686  #32bit
-| baseurl=http://downloads-distro.mongodb.org/repo/redhat/os/x86_64 #64bit
-| gpgcheck=0
-| enabled=1
-| EOF
-| $ yum install PyQt4 python-lxml mongo-10gen mong-10gen-server
-| $ pip install virtualenv
-| $ exit
-|
-| $ virtualenv samdolc
-| $ cd samdolc
-| $ source bin/activate
-| $ pip install -r requirements.txt
+::
 
+ $ su
+ $ cat <<EOF > /etc/yum.repos.d/10gen.repo
+ [10gen]
+ name=10gen Repository
+ #baseurl=http://downloads-distro.mongodb.org/repo/redhat/os/i686  #32bit
+ baseurl=http://downloads-distro.mongodb.org/repo/redhat/os/x86_64 #64bit
+ gpgcheck=0
+ enabled=1
+ EOF
+ $ yum install PyQt4 python-lxml mongo-10gen mong-10gen-server
+ $ pip install virtualenv
+ $ exit
+ 
+ $ virtualenv samdolc
+ $ cd samdolc
+ $ source bin/activate
+ $ pip install -r requirements.txt
 
 It has two part
  - server
  - chrome_extension
 
- 1. Configure the server such as port, database name.
- $ nano samdol/server/config.py
+ 1. Configure the server such as port, database name
+ ::
+
+  $ nano samdol/server/config.py
 
  2. Start server
- $ cd samdol/server
- $ python samdolc.py
+ ::
 
- 2.1 To start as a daemon
+  $ cd samdol/server
+  $ python samdolc.py
+
+ 2.1. To start as a daemon::
+
  $ python samdolcd.py start
 
  3. Install chrome extension
- 3.1 Type "chrome://extensions" in url bar
- 3.2 Check "Developer mode"
- 3.3 Click "Load unpacked extension..."
- 3.4 Load samdol/chrome_extension
+
+ 3.1. Type "chrome://extensions" in url bar
+
+ 3.2. Check "Developer mode"
+
+ 3.3. Click "Load unpacked extension..."
+
+ 3.4. Load samdol/chrome_extension
 
  4. You can see a browser action button in chrome
 
- 5. Find the recruit such as
- http://www.saramin.co.kr/zf_user/recruit/recruit-view?idx=13845172
+ 5. Find the recruit such as http://www.saramin.co.kr/zf_user/recruit/recruit-view?idx=13845172
 
  6. Click browser action button
 
