@@ -5,6 +5,7 @@ EXT_VER=0.1
 EXT_RELEASE=1
 TARBALL_NAME=${NAME}-${MAINVER}.tar.gz
 BUILD_DIRR=$(shell pwd)/tmp
+BUILD_DIRF=$(shell pwd)/build
 
 RPM_NAME=${NAME}-${MAINVER}-${RELEASE}.noarch.rpm
 EXE_NAME=${NAME}-${MAINVER}-${RELEASE}-installer.exe
@@ -38,7 +39,7 @@ endif
 create-chrome-package:
 	if [ -f ${EXT_NAME} ]; then rm ${EXT_NAME}; fi
 	${CHROME_CMD} --pack-extension=${CURRENT_PATH}/chrome_extension --pack-extension-key=${CURRENT_PATH}/chrome_extension.pem
-	mv chrome_extension.crx ${EXT_NAME}
+	mv chrome_extension.crx ${BUILD_DIRF}/${EXT_NAME}
 
 install-chrome-package:
 	cp ${EXT_EXTERNAL_JSON} ${EXT_EXTERNAL_PATH}
@@ -59,7 +60,7 @@ remove-build-exe:
 
 exe: prepare-exe
 	${NSIS_CMD} ${NAME}.nsi
-	mv ${NAME}.exe ${EXE_NAME}
+	mv ${NAME}.exe ${BUILD_DIRF}/${EXE_NAME}
 	rm -rf tmp/build_exe
 
 exe-py2exe: clean-tmp py2exe crx
@@ -72,6 +73,7 @@ exe-py2exe: clean-tmp py2exe crx
 	${NSIS_CMD} ${NSI_PY2EXE_NAME}
 	rm -rf tmp/build_exe
 	rm ${NSI_PY2EXE_NAME}
+	mv ${EXE_NAME} ${BUILD_DIRF}/${EXE_NAME}
 
 crx: create-chrome-package
 
@@ -79,17 +81,17 @@ py2exe:
 	$(MAKE) -C server py2exe
 
 zip: crx
-	tar cvzf ${TARBALL_NAME} -l `cat file_list`
+	tar cvzf ${TARBALL_NAME} -l `cat docs/file_list`
 
 zip-rpm: crx
-	tar cvzf ${TARBALL_NAME} -l `cat file_list_on_rpm`
+	tar cvzf ${TARBALL_NAME} -l `cat docs/file_list_on_rpm`
 
 zip-exe: crx
-	tar cvzf ${TARBALL_NAME} -l `cat file_list_on_windows`
+	tar cvzf ${TARBALL_NAME} -l `cat docs/file_list_on_windows`
 
 rpm: build-rpm-pre
 	rpmbuild -bb --sign --define="_buildshell /bin/bash" --define="_topdir ${BUILD_DIRR}" --define="_sourcedir `pwd`/" samdolc.spec
-	mv ${BUILD_DIRR}/RPMS/noarch/${RPM_NAME} ./
+	mv ${BUILD_DIRR}/RPMS/noarch/${RPM_NAME} ${BUILD_DIRF}
 
 ddinstall: rpm
 	sudo rpm -Uvh --force --nodeps ${RPM_NAME}
